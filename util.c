@@ -194,12 +194,16 @@ isWhitespace(const char *string)
 void *
 memrchr(const void *s, int c, size_t n)
 {
-    const unsigned char *ss = s;
-    unsigned char cc = c;
-    size_t i;
-    for(i = n - 1; i >= 0; i--)
-        if(ss[i] == cc)
-            return (void*)(ss + i);
+    if (n != 0)
+    {
+        const unsigned char *cp = (unsigned char *) s + n;
+        do
+        {
+            if (*(--cp) == (unsigned char) c)
+                return (void *) cp;
+        } while (--n != 0);
+    }
+    
     return NULL;
 }
 #endif
